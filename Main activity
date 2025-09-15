@@ -1,0 +1,50 @@
+// Add this to your MainActivity.kt in the setContent block:
+
+setContent {
+    SignalHomeScreen(
+        conversations = conversations,
+        isLoading = isLoading,
+        searchQuery = searchQuery,
+        onSearchQueryChange = { query: String -> searchQuery = query },
+        onUserClick = { conversationInfo: ConversationInfo ->
+            val intent = Intent(this@MainActivity, ChatActivity::class.java).apply {
+                putExtra("userId", conversationInfo.user.uid)
+            }
+            startActivity(intent)
+            // Mark messages as read when opening chat
+            markMessagesAsRead(conversationInfo.user.uid)
+        },
+        onLogout = { logout() },
+        onSettingsClick = {
+            // Navigate to Settings Activity
+            val intent = Intent(this@MainActivity, SettingsActivity::class.java)
+            startActivity(intent)
+        },
+        onNewChatClick = {
+            Toast.makeText(this@MainActivity, "New chat coming soon", Toast.LENGTH_SHORT).show()
+        },
+        onNewGroupClick = {
+            Toast.makeText(this@MainActivity, "New group coming soon", Toast.LENGTH_SHORT).show()
+        },
+        onNewBroadcastClick = {
+            Toast.makeText(this@MainActivity, "New broadcast coming soon", Toast.LENGTH_SHORT).show()
+        },
+        onLinkedDevicesClick = {
+            Toast.makeText(this@MainActivity, "Linked devices coming soon", Toast.LENGTH_SHORT).show()
+        },
+        onStarredMessagesClick = {
+            Toast.makeText(this@MainActivity, "Starred messages coming soon", Toast.LENGTH_SHORT).show()
+        },
+        onPaymentsClick = {
+            Toast.makeText(this@MainActivity, "Payments coming soon", Toast.LENGTH_SHORT).show()
+        }
+    )
+}
+
+// Don't forget to add the SettingsActivity to your AndroidManifest.xml:
+/*
+<activity
+    android:name=".activities.SettingsActivity"
+    android:exported="false"
+    android:theme="@style/Theme.Chat22" />
+*/
